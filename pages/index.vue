@@ -219,7 +219,15 @@
                       : 'bg-white/10 text-white border-white/20',
                   ]"
                 >
-                  <p class="whitespace-pre-wrap">{{ message.text }}</p>
+                  <p
+                    v-if="message.sender === 'user'"
+                    class="whitespace-pre-wrap"
+                  >
+                    {{ message.text }}
+                  </p>
+                  <div v-else>
+                    <div v-html="message.text"></div>
+                  </div>
                   <div
                     :class="[
                       'text-xs mt-2 opacity-70',
@@ -508,7 +516,7 @@ const sendMessage = async (text = null) => {
     // Use response from backend or fallback
     const aiResponse = {
       id: Date.now() + 1,
-      text: response.data?.output,
+      text: response.data?.data,
       sender: "ai",
       timestamp: new Date(),
     };
